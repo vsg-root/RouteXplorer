@@ -1,6 +1,6 @@
 # RouteXplorer: Biblioteca para Otimização de Rotas em Grafos Completos
 
-RouteXplorer é uma poderosa biblioteca Python desenvolvida para solucionar o desafiador problema do caixeiro viajante, também conhecido como Traveling Salesman Problem (TSP). Com o RouteXplorer, você pode otimizar as rotas de viagem, encontrando a sequência ideal de visitação de várias cidades e minimizando a distância total percorrida.
+O RouteXplorer é uma biblioteca Python desenvolvida para resolver o problema do caixeiro viajante (TSP) em grafos completos. Seu objetivo é encontrar a sequência mais eficiente de visitação dos nós de um grafo, minimizando a distância total percorrida.
 
 ## Principais Características
 
