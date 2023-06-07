@@ -1,6 +1,7 @@
 # RouteXplorer: Biblioteca para Otimização de Rotas em Grafos Completos
 
-![Captura de tela de 2023-06-07 16-57-59](https://github.com/vsg-root/RouteXplorer/assets/108759490/75bc90ed-bf9a-40e4-bbfc-778cabc922b8)
+
+![1686181625475](https://github.com/vsg-root/RouteXplorer/assets/108759490/e43121c4-5005-4f57-8e9e-376fb2424019)
 <br>
 <br>
 
