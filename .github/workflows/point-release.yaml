@@ -7,6 +7,9 @@ on:
   pull_request:
     branches:
       - main
+  release:
+    types:
+      - created
 
 jobs:
   build:
@@ -27,18 +30,25 @@ jobs:
         pip install wheel
         pip install setuptools
 
+    - name: Get current version
+      id: get_current_version
+      run: |
+        version=$(grep -oP "version='(\d+\.\d+\.\d+)'" setup.py | grep -oP "(\d+\.\d+\.\d+)")
+        echo "::set-output name=version::$version"
+
     - name: Build .whl and .tar.gz
       run: |
         python setup.py bdist_wheel sdist
 
     - name: Create source code zip and tar.gz
       run: |
-        version=$(grep -oP "version='(\d+\.\d+\.\d+)'" setup.py | grep -oP "(\d+\.\d+\.\d+)")
+        version=${{ steps.get_current_version.outputs.version }}
         mkdir -p dist
-        zip -r dist/routexplorer-${version}.zip src
-        tar -czvf dist/routexplorer-${version}.tar.gz src
+        zip -r dist/routexplorer-${version}.zip .
+        tar -czvf dist/routexplorer-${version}.tar.gz .
 
     - name: Push tag and release assets
+      if: github.event_name == 'release'
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
@@ -47,6 +57,7 @@ jobs:
         asset_content_type: application/zip
 
     - name: Push tag and release assets
+      if: github.event_name == 'release'
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
@@ -55,6 +66,7 @@ jobs:
         asset_content_type: application/gzip
 
     - name: Push tag and release assets
+      if: github.event_name == 'release'
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
