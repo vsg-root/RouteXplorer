@@ -1,6 +1,13 @@
 from typing import Tuple, List, Dict
 
 
+class ElementoInvalido(Exception):
+    pass
+class TamanhoInvalido(InvalidElement):
+    pass
+class MapaInvalido(InvalidElement):
+    pass
+
 class Grafo:
     def __init__(self, arestas: Dict[str, Dict[str, int]]):
         self.grafo = self.construir_grafo(arestas)
@@ -60,3 +67,76 @@ class MelhorCaminhoFinder:
                 melhor_caminho = caminho
 
         return melhor_caminho, menor_distancia
+
+class InputReader():
+    """Classe responsável por fazer a leitura do input e trata-lo"""
+   
+    def ler_arquivo(self, caminho_arquivo: str) -> dict:
+        """Lê o arquivo de input passado como parâmetro.
+
+        Args:
+            caminho_arquivo (str): Caminho do arquivo.
+
+        Returns:
+            dict: Dicíonário com as coordenadas de cada vértice.
+        """
+      
+        def procurar(vertices: dict, alvo: str) -> bool:
+            """Verifica se um vértice esta no dicionário de vértices passado como parâmetro.
+
+            Args:
+                vertices (dict): Dicionário com todos os vértices.
+                alvo (str): vértice alvo da busca.
+
+            Returns:
+                bool: resultado da busca.
+            """
+            for i in vertices.keys():
+                if i == alvo:
+                    return True
+            return False
+            
+
+        with open(caminho_arquivo, "r") as arquivo:
+            tamanho_mapa = ()
+            try:
+                tamanho_mapa = tuple(int(i) for i in arquivo.readline().split("x"))
+                if len(tamanho_mapa) != 2:
+                    raise TamanhoInvalido("Número inválido de dimensões!")
+            except ValueError:
+                raise TamanhoInvalido("O tamanho do mapa deve ser composto por dois inteiros!")
+            
+            vertices = {}
+            encontrou_r = False
+            for i in range(tamanho_mapa[0]):
+                linha = arquivo.readline().split()[:tamanho_mapa[1]]
+                if not linha or len(linha) < tamanho_mapa[1]:
+                    raise MapaInvalido("O tamanho real do mapa não corresponde ao tamanho informado!")
+                for j in range(tamanho_mapa[1]):
+                    if not encontrou_r and linha[j] == 'R':
+                        encontrou_r = True
+                    if linha[j].isalpha() and not procurar(vertices, linha[j]):
+                        vertices[linha[j]] = (i, j)
+                    elif linha[j].isalpha():
+                      raise MapaInvalido("Vértices duplicados!")
+            
+            if not encontrou_r :
+                raise MapaInvalido("Ponto de retorno não encontrado!")
+            
+            return vertices
+                
+    def get_distancias(self, vertices: dict) -> dict:
+        """Calcula a distâcia de cada vertice para todos os outros.
+
+        Args:
+            vertices (dict): Dicionário com todos os vértices.
+
+        Returns:
+            dict: Dicionário com a distância de cada vertice para todos os demais.
+        """
+        distancias = {}
+        for i in vertices.keys():
+            vertices_restantes = vertices.copy()
+            vertices_restantes.pop(i)
+            distancias[i] = dict((j, abs(vertices[i][0] - vertices[j][0]) + abs(vertices[i][1] - vertices[j][1])) for j in vertices_restantes.keys())
+        return distancias
