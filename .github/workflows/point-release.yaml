@@ -1,75 +1,47 @@
-name: Python CI
+name: Create release for py_abm
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  release:
-    types:
-      - created
+    branches: ["main"]
+
+permissions:
+  contents: write
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout to source branch
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
 
-    - name: Install build dependencies
-      run: |
-        pip install wheel
-        pip install setuptools
+      - name: Prepare environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+          python -m pip install wheel
 
-    - name: Get current version
-      id: get_current_version
-      run: |
-        version=$(grep -oP "version='(\d+\.\d+\.\d+)'" setup.py | grep -oP "(\d+\.\d+\.\d+)")
-        echo "::set-output name=version::$version"
+      - name: Build package
+        run: |
+          python -m build .
 
-    - name: Build .whl and .tar.gz
-      run: |
-        python setup.py bdist_wheel sdist
+      - name: Extract version from setup.py
+        id: extract-version
+        run: |
+          version=$(grep -oP "version='(\d+\.\d+\.\d+)'" setup.py | grep -oP "(\d+\.\d+\.\d+)" | head -1)
+          echo "::set-output name=version::$version"
 
-    - name: Create source code zip and tar.gz
-      run: |
-        version=${{ steps.get_current_version.outputs.version }}
-        mkdir -p dist
-        zip -r dist/routexplorer-${version}.zip .
-        tar -czvf dist/routexplorer-${version}.tar.gz .
-
-    - name: Push tag and release assets
-      if: github.event_name == 'release'
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/*.whl
-        asset_name: routexplorer-${{ steps.get_current_version.outputs.version }}.whl
-        asset_content_type: application/zip
-
-    - name: Push tag and release assets
-      if: github.event_name == 'release'
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/*.tar.gz
-        asset_name: routexplorer-${{ steps.get_current_version.outputs.version }}.tar.gz
-        asset_content_type: application/gzip
-
-    - name: Push tag and release assets
-      if: github.event_name == 'release'
-      uses: actions/upload-release-asset@v1
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/*.zip
-        asset_name: routexplorer-${{ steps.get_current_version.outputs.version }}.zip
-        asset_content_type: application/zip
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.extract-version.outputs.version }}
+          target_commitish: main
+          name: Versão ${{ steps.extract-version.outputs.version }}
+          prerelease: false
+          draft: false
+          files: ./dist/*
+          body: "Versão estável da biblioteca py-abm."
