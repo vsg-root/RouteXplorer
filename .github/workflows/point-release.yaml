@@ -22,31 +22,27 @@ jobs:
       with:
         python-version: 3.8
 
-    - name: Set up Git
+    - name: Install build dependencies
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-
-    - name: Get current version
-      run: |
-        version=$(python setup.py --version)
-        echo "::set-output name=version::$version"
+        pip install wheel
+        pip install setuptools
 
     - name: Build .whl and .tar.gz
       run: |
-        python setup.py sdist bdist_wheel
+        python setup.py bdist_wheel sdist
 
     - name: Create source code zip and tar.gz
       run: |
-        version=${{ steps.get_current_version.outputs.version }}
-        git archive --format=zip --output=routexplorer-${version}.zip HEAD
-        git archive --format=tar.gz --output=routexplorer-${version}.tar.gz HEAD
+        version=$(grep -oP "version='(\d+\.\d+\.\d+)'" setup.py | grep -oP "(\d+\.\d+\.\d+)")
+        mkdir -p dist
+        zip -r dist/routexplorer-${version}.zip src
+        tar -czvf dist/routexplorer-${version}.tar.gz src
 
     - name: Push tag and release assets
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/routexplorer-${{ steps.get_current_version.outputs.version }}.whl
+        asset_path: dist/*.whl
         asset_name: routexplorer-${{ steps.get_current_version.outputs.version }}.whl
         asset_content_type: application/zip
 
@@ -54,7 +50,7 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: dist/routexplorer-${{ steps.get_current_version.outputs.version }}.tar.gz
+        asset_path: dist/*.tar.gz
         asset_name: routexplorer-${{ steps.get_current_version.outputs.version }}.tar.gz
         asset_content_type: application/gzip
 
@@ -62,6 +58,6 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ github.event.release.upload_url }}
-        asset_path: routexplorer-${{ steps.get_current_version.outputs.version }}.zip
+        asset_path: dist/*.zip
         asset_name: routexplorer-${{ steps.get_current_version.outputs.version }}.zip
         asset_content_type: application/zip
