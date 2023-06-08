@@ -1,52 +1,50 @@
-name: Create release for RouteXplore
+name: Release
 
 on:
   push:
-    branches: ["main"]
-
-permissions:
-  contents: write
+    branches:
+      - main
 
 jobs:
-  build:
+  release:
+    name: Create Release
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout to source branch
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Setup Python 3.8
-        uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: 3.x  # Substitua '3.x' pela versão desejada do Python
 
-      - name: Prepare environment
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install build
-          python -m pip install wheel
+      - name: Install Dependencies
+        run: pip install --upgrade setuptools wheel
 
-      - name: Build package
-        run: |
-          python -m build .
+      - name: Build Distribution
+        run: python setup.py sdist bdist_wheel
 
-      - name: Extract version from setup.py
-        id: extract-version
-        run: |
-          version=$(grep -oP "version='(\d+\.\d+\.\d+)'" setup.py | grep -oP "(\d+\.\d+\.\d+)" | head -1)
-          echo "::set-output name=version::$version"
-
-      - name: Create GitHub release
-        uses: softprops/action-gh-release@v1
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.extract-version.outputs.version }}
-          target_commitish: main
-          name: Versão ${{ steps.extract-version.outputs.version }}
-          prerelease: false
+          tag_name: v${{ steps.get_version.outputs.version }}
+          release_name: Release ${{ steps.get_version.outputs.version }}
+          body: |
+            Release ${{ steps.get_version.outputs.version }}
+            Add release notes or additional information here.
           draft: false
-          files: ./dist/*
+          prerelease: false
 
-      - name: Create source code zip and tar.gz
-        run: |
-          version=${{ steps.extract-version.outputs.version }}
-          zip -r routexplorer-${version}.zip .
-          tar -czvf routexplorer-${version}.tar.gz .
+      - name: Upload Distribution
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: dist/*
+          asset_name: routexplorer-${{ steps.get_version.outputs.version }}.tar.gz
+          asset_content_type: application/gzip
