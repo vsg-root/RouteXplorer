@@ -1,4 +1,4 @@
-from utils import InputReader, CalculadorDistancia, MelhorCaminhoFinder
+from utils import InputReader, MelhorCaminhoFinder
 
 # Dados do grafo
 input_reader = InputReader()
@@ -6,8 +6,7 @@ vertices = input_reader.ler_arquivo(input("Insira o camino do arquivo: ")) #./ex
 grafo = input_reader.get_distancias(vertices)
 
 # Construção das instâncias
-calculador_distancia = CalculadorDistancia(grafo)
-melhor_caminho_finder = MelhorCaminhoFinder(grafo, calculador_distancia)
+melhor_caminho_finder = MelhorCaminhoFinder(grafo)
 
 # Cálculo do melhor caminho e distância
 vertices.pop("R")

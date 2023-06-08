@@ -6,10 +6,11 @@ class TamanhoInvalido(ElementoInvalido):
 class MapaInvalido(ElementoInvalido):
     pass
 
-class CalculadorDistancia:
+
+class MelhorCaminhoFinder:
     def __init__(self, grafo: dict[str, dict[str, int]]):
         self.grafo = grafo
-
+        
     def calcular_distancia(self, caminho: list[str]) -> int:
         distancia_total = 0
         for i in range(len(caminho) - 1):
@@ -17,13 +18,7 @@ class CalculadorDistancia:
             proximo_vertice = caminho[i + 1]
             distancia_total += self.grafo[vertice_atual][proximo_vertice]
         return distancia_total
-
-
-class MelhorCaminhoFinder:
-    def __init__(self, grafo: dict[str, dict[str, int]], calculador_distancia: CalculadorDistancia):
-        self.grafo = grafo
-        self.calculador_distancia = calculador_distancia
-
+    
     def permutacoes(self, vertices: list[str]) -> list[list[str]]:
         if len(vertices) == 1:
             return [vertices]
@@ -42,8 +37,9 @@ class MelhorCaminhoFinder:
 
         permutacoes = self.permutacoes(vertices)
         for permutacao in permutacoes:
+            permutacoes.remove(permutacao[::-1]) # Verificar se é permitido!!!
             caminho = ['R'] + permutacao + ['R']
-            distancia = self.calculador_distancia.calcular_distancia(caminho)
+            distancia = self.calcular_distancia(caminho)
             if distancia < menor_distancia:
                 menor_distancia = distancia
                 melhor_caminho = caminho
@@ -53,7 +49,7 @@ class MelhorCaminhoFinder:
 class InputReader():
     def ler_arquivo(self, caminho_arquivo: str) -> dict:
       
-        def procurar(vertices: dict[str, tuple[int, int]], alvo: str) -> bool:
+        def procurar_vertice(vertices: dict[str, tuple[int, int]], alvo: str) -> bool:
             for i in vertices.keys():
                 if i == alvo:
                     return True
@@ -78,7 +74,7 @@ class InputReader():
                 for j in range(tamanho_mapa[1]):
                     if not encontrou_r and linha[j] == 'R':
                         encontrou_r = True
-                    if linha[j].isalpha() and not procurar(vertices, linha[j]):
+                    if linha[j].isalpha() and not procurar_vertice(vertices, linha[j]):
                         vertices[linha[j]] = (i, j)
                     elif linha[j].isalpha():
                       raise MapaInvalido("Vértices duplicados!")
