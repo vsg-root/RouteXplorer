@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='routexplorer',
-    version='0.0.2',
+    version='0.0.1',
     description='Biblioteca para Otimização de Rotas em Grafos Completos.',
     packages=find_packages('src'),
     package_dir={'': 'src'},
