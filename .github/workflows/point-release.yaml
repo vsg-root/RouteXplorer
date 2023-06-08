@@ -1,4 +1,4 @@
-name: Create release for RouteXplorer
+name: Create release for RouteXplore
 
 on:
   push:
@@ -45,3 +45,8 @@ jobs:
           draft: false
           files: ./dist/*
 
+      - name: Create source code zip and tar.gz
+        run: |
+          version=${{ steps.extract-version.outputs.version }}
+          zip -r routexplorer-${version}.zip .
+          tar -czvf routexplorer-${version}.tar.gz .
