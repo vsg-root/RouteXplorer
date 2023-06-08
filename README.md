@@ -1,6 +1,8 @@
 # RouteXplorer: Library for Route Optimization in Complete Graphs
 
-![logoo](https://github.com/vsg-root/RouteXplorer/assets/108541219/3434f78a-14b6-4a39-863a-54753be87522)
+<p align="center">
+  <img src="https://github.com/vsg-root/RouteXplorer/assets/108541219/3434f78a-14b6-4a39-863a-54753be87522">
+</p>
 
 
 [![Python](https://img.shields.io/badge/Python-3.0%2B-blue.svg)](https://www.python.org/downloads/release/python-300/)
