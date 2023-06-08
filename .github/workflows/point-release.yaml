@@ -1,4 +1,4 @@
-name: Create release for py_abm
+name: Create release for RouteXplorer
 
 on:
   push:
@@ -44,4 +44,4 @@ jobs:
           prerelease: false
           draft: false
           files: ./dist/*
-          body: "Versão estável da biblioteca py-abm."
+
