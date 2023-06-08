@@ -1,18 +1,16 @@
-from typing import Tuple, List, Dict
-
 
 class ElementoInvalido(Exception):
     pass
-class TamanhoInvalido(InvalidElement):
+class TamanhoInvalido(ElementoInvalido):
     pass
-class MapaInvalido(InvalidElement):
+class MapaInvalido(ElementoInvalido):
     pass
 
 class Grafo:
-    def __init__(self, arestas: Dict[str, Dict[str, int]]):
+    def __init__(self, arestas: dict[str, dict[str, int]]):
         self.grafo = self.construir_grafo(arestas)
 
-    def construir_grafo(self, arestas: Dict[str, Dict[str, int]]) -> Dict[str, Dict[str, int]]:
+    def construir_grafo(self, arestas: dict[str, dict[str, int]]) -> dict[str, dict[str, int]]:
         grafo = {}
         for origem, destinos in arestas.items():
             grafo[origem] = {}
@@ -28,7 +26,7 @@ class CalculadorDistancia:
     def __init__(self, grafo: Grafo):
         self.grafo = grafo
 
-    def calcular_distancia(self, caminho: List[str]) -> int:
+    def calcular_distancia(self, caminho: list[str]) -> int:
         distancia_total = 0
         for i in range(len(caminho) - 1):
             vertice_atual = caminho[i]
@@ -42,7 +40,7 @@ class MelhorCaminhoFinder:
         self.grafo = grafo
         self.calculador_distancia = calculador_distancia
 
-    def permutacoes(self, vertices: List[str]) -> List[List[str]]:
+    def permutacoes(self, vertices: list[str]) -> list[list[str]]:
         if len(vertices) == 1:
             return [vertices]
         resultado = []
@@ -54,7 +52,7 @@ class MelhorCaminhoFinder:
                 resultado.append([vertice_atual] + permutacao)
         return resultado
 
-    def encontrar_melhor_caminho(self, vertices: List[str]) -> Tuple[List[str], int]:
+    def encontrar_melhor_caminho(self, vertices: list[str]) -> tuple[list[str], int]:
         menor_distancia = float('inf')
         melhor_caminho = None
 
@@ -69,28 +67,10 @@ class MelhorCaminhoFinder:
         return melhor_caminho, menor_distancia
 
 class InputReader():
-    """Classe responsável por fazer a leitura do input e trata-lo"""
    
     def ler_arquivo(self, caminho_arquivo: str) -> dict:
-        """Lê o arquivo de input passado como parâmetro.
-
-        Args:
-            caminho_arquivo (str): Caminho do arquivo.
-
-        Returns:
-            dict: Dicíonário com as coordenadas de cada vértice.
-        """
       
-        def procurar(vertices: dict, alvo: str) -> bool:
-            """Verifica se um vértice esta no dicionário de vértices passado como parâmetro.
-
-            Args:
-                vertices (dict): Dicionário com todos os vértices.
-                alvo (str): vértice alvo da busca.
-
-            Returns:
-                bool: resultado da busca.
-            """
+        def procurar(vertices: dict[str, tuple[int, int]], alvo: str) -> bool:
             for i in vertices.keys():
                 if i == alvo:
                     return True
@@ -125,14 +105,14 @@ class InputReader():
             
             return vertices
                 
-    def get_distancias(self, vertices: dict) -> dict:
+    def get_distancias(self, vertices: dict[str, tuple[int, int]]) -> dict[str, dict[str, tuple[int, int]]]:
         """Calcula a distâcia de cada vertice para todos os outros.
 
         Args:
-            vertices (dict): Dicionário com todos os vértices.
+            vertices (dict[str, tuple[int, int]]): Dicionário com todos os vértices.
 
         Returns:
-            dict: Dicionário com a distância de cada vertice para todos os demais.
+            dict[str, dict[str, tuple[int, int]]]: Dicionário com a distância de cada vertice para todos os demais.
         """
         distancias = {}
         for i in vertices.keys():
