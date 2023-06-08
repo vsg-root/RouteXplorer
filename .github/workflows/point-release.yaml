@@ -22,8 +22,15 @@ jobs:
       - name: Install Dependencies
         run: pip install --upgrade setuptools wheel
 
+      - name: Check if version changed
+        id: check_version
+        run: |
+          git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | grep setup.py || echo "::set-output name=version_changed::false"
+          echo "::set-output name=version_changed::true"
+
       - name: Build Distribution
         run: python setup.py sdist bdist_wheel
+        if: steps.check_version.outputs.version_changed == 'true'
 
       - name: Create Release
         id: create_release
@@ -38,6 +45,7 @@ jobs:
             Add release notes or additional information here.
           draft: false
           prerelease: false
+        if: steps.check_version.outputs.version_changed == 'true'
 
       - name: Upload Distribution
         uses: actions/upload-release-asset@v1
@@ -48,3 +56,4 @@ jobs:
           asset_path: dist/*
           asset_name: routexplorer-${{ steps.get_version.outputs.version }}.tar.gz
           asset_content_type: application/gzip
+        if: steps.check_version.outputs.version_changed == 'true'
