@@ -1,6 +1,6 @@
 # RouteXplorer: Library for Route Optimization in Complete Graphs
 
-![Coisas grandes frase minimalista instagram post (450 × 400 px) (2)](https://github.com/vsg-root/RouteXplorer/assets/108541219/730d6a90-a195-426e-93b5-cfbc71f4247d)
+![logoo](https://github.com/vsg-root/RouteXplorer/assets/108541219/3434f78a-14b6-4a39-863a-54753be87522)
 
 
 [![Python](https://img.shields.io/badge/Python-3.0%2B-blue.svg)](https://www.python.org/downloads/release/python-300/)
