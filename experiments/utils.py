@@ -6,24 +6,8 @@ class TamanhoInvalido(ElementoInvalido):
 class MapaInvalido(ElementoInvalido):
     pass
 
-class Grafo:
-    def __init__(self, arestas: dict[str, dict[str, int]]):
-        self.grafo = self.construir_grafo(arestas)
-
-    def construir_grafo(self, arestas: dict[str, dict[str, int]]) -> dict[str, dict[str, int]]:
-        grafo = {}
-        for origem, destinos in arestas.items():
-            grafo[origem] = {}
-            for destino, peso in destinos.items():
-                grafo[origem][destino] = peso
-        return grafo
-
-    def obter_peso(self, origem: str, destino: str) -> int:
-        return self.grafo[origem][destino]
-
-
 class CalculadorDistancia:
-    def __init__(self, grafo: Grafo):
+    def __init__(self, grafo: dict[str, dict[str, int]]):
         self.grafo = grafo
 
     def calcular_distancia(self, caminho: list[str]) -> int:
@@ -31,12 +15,12 @@ class CalculadorDistancia:
         for i in range(len(caminho) - 1):
             vertice_atual = caminho[i]
             proximo_vertice = caminho[i + 1]
-            distancia_total += self.grafo.obter_peso(vertice_atual, proximo_vertice)
+            distancia_total += self.grafo[vertice_atual][proximo_vertice]
         return distancia_total
 
 
 class MelhorCaminhoFinder:
-    def __init__(self, grafo: Grafo, calculador_distancia: CalculadorDistancia):
+    def __init__(self, grafo: dict[str, dict[str, int]], calculador_distancia: CalculadorDistancia):
         self.grafo = grafo
         self.calculador_distancia = calculador_distancia
 
@@ -67,7 +51,6 @@ class MelhorCaminhoFinder:
         return melhor_caminho, menor_distancia
 
 class InputReader():
-   
     def ler_arquivo(self, caminho_arquivo: str) -> dict:
       
         def procurar(vertices: dict[str, tuple[int, int]], alvo: str) -> bool:
@@ -105,15 +88,7 @@ class InputReader():
             
             return vertices
                 
-    def get_distancias(self, vertices: dict[str, tuple[int, int]]) -> dict[str, dict[str, tuple[int, int]]]:
-        """Calcula a distâcia de cada vertice para todos os outros.
-
-        Args:
-            vertices (dict[str, tuple[int, int]]): Dicionário com todos os vértices.
-
-        Returns:
-            dict[str, dict[str, tuple[int, int]]]: Dicionário com a distância de cada vertice para todos os demais.
-        """
+    def get_distancias(self, vertices: dict[str, tuple[int, int]]) -> dict[str, dict[str, int]]:
         distancias = {}
         for i in vertices.keys():
             vertices_restantes = vertices.copy()
