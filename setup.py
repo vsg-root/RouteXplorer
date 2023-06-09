@@ -1,4 +1,8 @@
-from setuptools import setup, find_packages
+import os
+
+from setuptools import find_packages, setup
+
+os.system("pre-commit run")
 
 setup(
     name="routexplorer",
@@ -8,7 +12,7 @@ setup(
     package_dir={"": "src"},
     entry_points={"console_scripts": ["routexplorer = routexplorer.__main__:main"]},
     install_requires=[
-        # Dependências do seu projeto
+        # TODO Dependências do seu projeto
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",

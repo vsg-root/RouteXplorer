@@ -1,0 +1,20 @@
+# repos:
+#   - repo: local
+#     hooks:
+#       - id: isort
+#         name: isort
+#         entry: isort
+#         language: system
+#         types: [python]
+#         args: ["."]
+#       - id: black
+#         name: black
+#         entry: black
+#         language: system
+#         types: [python]
+#         args: ["."]
+#       - id: pylint
+#         name: pylint
+#         entry: pylint $(git ls-files '*.py')
+#         language: system
+#         types: [python]
