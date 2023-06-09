@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-
 class ElementoInvalido(Exception):
     pass
 
