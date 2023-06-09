@@ -1,23 +1,16 @@
-from utils import Grafo, CalculadorDistancia, MelhorCaminhoFinder
+from utils import InputReader, MelhorCaminhoFinder
 
 # Dados do grafo
-arestas = {
-    'R': {'A': 3, 'B': 2, 'C': 5, 'D': 7},
-    'A': {'R': 3, 'B': 3, 'C': 4, 'D': 4},
-    'B': {'R': 2, 'A': 3, 'C': 3, 'D': 5},
-    'C': {'R': 5, 'A': 4, 'B': 3, 'D': 2},
-    'D': {'R': 7, 'A': 4, 'B': 5, 'C': 2}
-}
+input_reader = InputReader()
+vertices = input_reader.ler_arquivo(input("Insira o camino do arquivo: ")) #./experiments/input.txt
+grafo = input_reader.get_distancias(vertices)
 
 # Construção das instâncias
-grafo = Grafo(arestas)
-calculador_distancia = CalculadorDistancia(grafo)
-melhor_caminho_finder = MelhorCaminhoFinder(grafo, calculador_distancia)
+melhor_caminho_finder = MelhorCaminhoFinder(grafo)
 
 # Cálculo do melhor caminho e distância
-vertices = ['A', 'B', 'C', 'D']
-
-melhor_caminho, melhor_distancia = melhor_caminho_finder.encontrar_melhor_caminho(vertices)
+vertices.pop("R")
+melhor_caminho, melhor_distancia = melhor_caminho_finder.encontrar_melhor_caminho(list(vertices.keys()))
 
 print("Melhor caminho:", melhor_caminho)
 print("Distância:", melhor_distancia)
