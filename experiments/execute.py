@@ -1,12 +1,15 @@
-from utils import InputReader, MelhorCaminhoFinder
+from algorithms.utils import InputReader, DistanciaCalculator
+from algorithms.BruteForceSearch import BruteForceSearch
 
 # Dados do grafo
 input_reader = InputReader()
-vertices = input_reader.ler_arquivo(input("Insira o camino do arquivo: ")) #./experiments/input.txt
-grafo = input_reader.get_distancias(vertices)
+vertices = input_reader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
+
+distancia_calculator = DistanciaCalculator()
+grafo = distancia_calculator.get_distancias(vertices)
 
 # Construção das instâncias
-melhor_caminho_finder = MelhorCaminhoFinder(grafo)
+melhor_caminho_finder = BruteForceSearch(grafo)
 
 # Cálculo do melhor caminho e distância
 vertices.pop("R")
