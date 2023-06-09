@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 
-
 class Algorithm(ABC):
     """Classe abstrata para encontrar o melhor percurso em um grafo
     """
@@ -21,23 +20,23 @@ class BruteForceSearch(Algorithm):
             distancia_total += self.grafo[vertice_atual][proximo_vertice]
         return distancia_total
 
-    def permutacoes(self, vertices):
+    def permutation(self, vertices):
         if len(vertices) == 1:
             return [vertices]
         resultado = []
         for i in range(len(vertices)):
             vertice_atual = vertices[i]
             vertices_restantes = vertices[:i] + vertices[i + 1:]
-            permutacoes_restantes = self.permutacoes(vertices_restantes)
+            permutacoes_restantes = self.permutation(vertices_restantes)  # Corrected method name
             for permutacao in permutacoes_restantes:
                 resultado.append([vertice_atual] + permutacao)
         return resultado
-
+    
     def encontrar_melhor_caminho(self, vertices):
         menor_distancia = float('inf')
         melhor_caminho = None
-
-        permutacoes = self.permutacoes(vertices)
+    
+        permutacoes = self.permutation(vertices)
         for permutacao in permutacoes:
             permutacoes.remove(permutacao[::-1]) # Verificar se é permitido!!!
             caminho = ['R'] + permutacao + ['R']

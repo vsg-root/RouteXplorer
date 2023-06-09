@@ -1,4 +1,5 @@
-from algorithms.utils import InputReader, DistanciaCalculator
+from utils.distance_calculator import DistanciaCalculator
+from utils.input_reader import InputReader
 from algorithms.BruteForceSearch import BruteForceSearch
 
 # Dados do grafo
