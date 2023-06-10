@@ -19,7 +19,7 @@ RouteXplorer is a Python library developed to solve the Traveling Salesman Probl
 $ pip install routexplore
 ```
 
-#### Try your first RouteXplorer program
+##### Try your first RouteXplorer program
 ```python
 $ python
 ```
