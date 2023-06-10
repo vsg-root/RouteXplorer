@@ -24,17 +24,12 @@ pip install routexplore
 $ python
 ```
 ```python
-from routexplore.utils.input_reader import InputReader
-from routexplore.algorithms.BruteForceSearch import BruteForceSearch
+>>> from routexplore.utils.input_reader import InputReader
+>>> from routexplore.algorithms.BruteForceSearch import BruteForceSearch
 
-# Dados do grafo
-grafo = InputReader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
-
-# Cálculo do melhor caminho e distância
-melhor_caminho, melhor_distancia = BruteForceSearch.encontrar_melhor_caminho(grafo)
-
-print(" ".join(melhor_caminho))
-
+>>> grafo = InputReader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
+>>> melhor_caminho, melhor_distancia = BruteForceSearch.encontrar_melhor_caminho(grafo)
+>>> print(" ".join(melhor_caminho))
 ```
 
 ## Key Features
