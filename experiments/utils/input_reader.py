@@ -1,3 +1,5 @@
+from utils.Grafo import Grafo
+
 class ElementoInvalido(Exception):
     pass
 
@@ -11,8 +13,9 @@ class MapaInvalido(ElementoInvalido):
 class InputReader:
     """Classe responsável por fazer a leitura do input e trata-lo
     """
-
-    def ler_arquivo(self, caminho_arquivo: str) -> dict[str, tuple[int, int]]:
+    
+    @staticmethod
+    def ler_arquivo(caminho_arquivo: str) -> dict[str, tuple[int, int]]:
         def procurar_vertice(vertices: dict[str, tuple[int, int]], alvo: str) -> bool:
             for i in vertices.keys():
                 if i == alvo:
@@ -45,5 +48,5 @@ class InputReader:
             if not encontrou_r:
                 raise MapaInvalido("Ponto de retorno não encontrado!")
 
-            return vertices
+            return Grafo(vertices)
 
