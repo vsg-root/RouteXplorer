@@ -24,12 +24,14 @@ $ pip install routexplore
 $ python
 ```
 ```python
->>> from routexplore.utils.input_reader import InputReader
->>> from routexplore.algorithms.BruteForceSearch import BruteForceSearch
+>>> from utils.input_reader import InputReader
+>>> from algorithms.BruteForceSearch import BruteForceSearch
 
->>> grafo = InputReader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
->>> melhor_caminho, melhor_distancia = BruteForceSearch.encontrar_melhor_caminho(grafo)
->>> print(" ".join(melhor_caminho))
+>>> # Datas of graph
+>>> graph = InputReader.read_file(input("Enter file path: ")) #./experiments/input.txt
+
+>>> # Calculation of the best path and distance
+>>> best_path, best_distance = BruteForceSearch.find_best_path(graph, True, True)
 ```
 
 ## Key Features
@@ -40,55 +42,6 @@ $ python
 
 - Simple Integration: The library is easy to integrate into your existing Python projects, allowing you to leverage its powerful functionality without complications.
 
-## Software Architecture
-RouteXplorer's architecture follows an organized structure to facilitate extensibility, maintenance and code reuse. Here is an overview of the project's directory and file structure:
-
-```python
-├── experiments
-│   ├── algorithms
-│   │   ├── Algorithm.py
-│   │   ├── BruteForceSearch.py
-│   │   ├── __init__.py
-│   │   └── __pycache__
-│   │       ├── Algorithm.cpython-310.pyc
-│   │       ├── BruteForceSearch.cpython-310.pyc
-│   │       └── __init__.cpython-310.pyc
-│   ├── execute.py
-│   ├── __init__.py
-│   ├── input.txt
-│   └── utils
-│       ├── Grafo.py
-│       ├── __init__.py
-│       ├── input_reader.py
-│       ├── __pycache__
-│       │   ├── Grafo.cpython-310.pyc
-│       │   ├── __init__.cpython-310.pyc
-│       │   ├── input_reader.cpython-310.pyc
-│       │   └── Utils.cpython-310.pyc
-│       └── Utils.py
-├── LICENSE.md
-├── README.md
-├── requirements.txt
-├── setup.py
-├── src
-│   └── routexplorer
-│       └── __init__.py
-└── tests
-    └── __init__.py
-```
-
-- The experiments directory contains files related to running specific experiments or tests, such as different search algorithms.
-
-- The experiments/algorithms directory houses the implementation of the algorithms to solve the Traveling Salesman Problem. Algorithm.py and BruteForceSearch.py are examples of available algorithms. The __init__.py file is required for the directory to be considered a Python package.
-The experiments/execute.py directory contains a script file that is responsible for running the desired experiments or tests.
-
-- The experiments/utils directory contains utility files such as Grafo.py, input_reader.py, and Utils.py that provide auxiliary functionality for experiments.
-
-- The src directory contains the main source code for the RouteXplorer library. The src/routexplorer/__init__.py file is an initialization file required for the directory to be considered a Python package.
-
-- The tests directory contains test files to ensure code quality and integrity.
-
-In addition to the directory structure, the LICENSE.md file contains information about the project's use license, while requirements.txt lists the necessary dependencies to run RouteXplorer. setup.py is a setup file used to package and distribute the library.
 
 ## Contribution
 
@@ -97,5 +50,3 @@ RouteXplorer is an open source project and we encourage community contributions.
 ## License
 
 RouteXplorer is distributed under the MIT license. For more information, see the LICENSE.md file.
-
-I hope this improved README.md provides a clearer view of the software architecture used in the RouteXplorer project!
