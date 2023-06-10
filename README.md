@@ -24,14 +24,32 @@ $ pip install routexplore
 $ python
 ```
 ```python
->>> from utils.input_reader import InputReader
->>> from algorithms.BruteForceSearch import BruteForceSearch
+>>> from routexplorer.utils.input_reader import InputReader
+>>> from routexplorer.algorithms.BruteForceSearch import BruteForceSearch
 
 >>> # Datas of graph
->>> graph = InputReader.read_file(input("Enter file path: ")) #./experiments/input.txt
+>>> graph = InputReader.read_file(input("Enter file path: ")) 
 
 >>> # Calculation of the best path and distance
 >>> best_path, best_distance = BruteForceSearch.find_best_path(graph, True, True)
+```
+```bash
+file.txt
+
+4 5
+0 0 0 0 D
+0 A 0 0 0
+0 0 0 0 C
+R 0 B 0 0
+```
+```python
+$ Enter file path: file/path/file.txt
+```
+```
+100% [■■■■■■■■■■] - Generating permutations
+100% [■■■■■■■■■■] - Checking paths
+Best path: ['A', 'D', 'C', 'B'] 
+Shorter distance: (14)
 ```
 
 ## Key Features
