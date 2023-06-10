@@ -1,7 +1,7 @@
-
-Vertices = dict[str, tuple[int, int]]
-
 class Grafo:
+
+    Vertices = dict[str, tuple[int, int]]
+
     def __init__(self, vertices: Vertices) -> None:
         self.__grafo = self.__gerar_grafo(vertices)
         
