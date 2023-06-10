@@ -24,8 +24,8 @@ pip install routexplore
 $ python
 ```
 ```python
-from utils.input_reader import InputReader
-from algorithms.BruteForceSearch import BruteForceSearch
+from routexplore.utils.input_reader import InputReader
+from routexplore.algorithms.BruteForceSearch import BruteForceSearch
 
 # Dados do grafo
 grafo = InputReader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
