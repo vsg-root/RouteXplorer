@@ -38,7 +38,7 @@ class BruteForceSearch(Algorithm):
             distancia = grafo.calcular_custo(caminho)
             if distancia < menor_distancia:
                 menor_distancia = distancia
-                melhor_caminho = caminho
+                melhor_caminho = caminho[1:-1]
             cont += 1
         
         if exibir_resultado:

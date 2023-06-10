@@ -5,4 +5,6 @@ from algorithms.BruteForceSearch import BruteForceSearch
 grafo = InputReader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
 
 # Cálculo do melhor caminho e distância
-melhor_caminho, melhor_distancia = BruteForceSearch.encontrar_melhor_caminho(grafo, True, True)
+melhor_caminho, melhor_distancia = BruteForceSearch.encontrar_melhor_caminho(grafo)
+
+print(" ".join(melhor_caminho))
