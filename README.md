@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://github.com/vsg-root/RouteXplorer/assets/108541219/3434f78a-14b6-4a39-863a-54753be87522">
+  <img src="./assets/logo.png">
 </p>
 
 <br>
