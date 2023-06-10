@@ -1,10 +1,10 @@
 from utils.input_reader import InputReader
 from algorithms.BruteForceSearch import BruteForceSearch
 
-# Dados do grafo
-grafo = InputReader.ler_arquivo(input("Insira o caminho do arquivo: ")) #./experiments/input.txt
+# Datas of graph
+graph = InputReader.read_file(input("Enter file path: ")) #./experiments/input.txt
 
-# Cálculo do melhor caminho e distância
-melhor_caminho, melhor_distancia = BruteForceSearch.encontrar_melhor_caminho(grafo)
+# Calculation of the best path and distance
+best_path, best_distance = BruteForceSearch.find_best_path(graph)
 
-print(" ".join(melhor_caminho))
+print(" ".join(best_path))

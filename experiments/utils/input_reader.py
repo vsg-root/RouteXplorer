@@ -1,52 +1,67 @@
-from utils.Grafo import Grafo
+from utils.Graph import Graph
 
-class ElementoInvalido(Exception):
+class InvalidElement(Exception):
     pass
 
-class TamanhoInvalido(ElementoInvalido):
+class InvalidSize(InvalidElement):
     pass
 
-class MapaInvalido(ElementoInvalido):
+class InvalidMap(InvalidElement):
     pass
 
 
 class InputReader:
-    """Classe responsável por fazer a leitura do input e trata-lo
-    """
-    
+    """Class responsible for reading and handling the input."""
+
     @staticmethod
-    def ler_arquivo(caminho_arquivo: str) -> dict[str, tuple[int, int]]:
-        def procurar_vertice(vertices: dict[str, tuple[int, int]], alvo: str) -> bool:
+    def read_file(file_path: str) -> dict[str, tuple[int, int]]:
+        """Reads the input file and returns a dictionary of vertices with their coordinates.
+
+        Args:
+            file_path (str): The path to the input file.
+
+        Returns:
+            dict[str, tuple[int, int]]: A dictionary containing vertices as keys and their coordinates as values.
+        """
+        def looking_vertices(vertices: dict[str, tuple[int, int]], target: str) -> bool:
+            """Checks if a vertex already exists in the given dictionary.
+
+            Args:
+                vertices (dict[str, tuple[int, int]]): The dictionary of vertices.
+                target (str): The vertex to check.
+
+            Returns:
+                bool: True if the vertex exists, False otherwise.
+            """
             for i in vertices.keys():
-                if i == alvo:
+                if i == target:
                     return True
             return False
 
-        with open(caminho_arquivo, "r") as arquivo:
-            tamanho_mapa = ()
+        with open(file_path, "r") as file:
+            map_size = ()
             try:
-                tamanho_mapa = tuple(int(i) for i in arquivo.readline().split())
-                if len(tamanho_mapa) != 2:
-                    raise TamanhoInvalido("Número inválido de dimensões!")
+                map_size = tuple(int(i) for i in file.readline().split())
+                if len(map_size) != 2:
+                    raise InvalidSize("Invalid dimensions numbers!")
             except ValueError:
-                raise TamanhoInvalido("O tamanho do mapa deve ser composto por dois inteiros!")
+                raise InvalidSize("The map size must consist of two integers!")
 
             vertices = {}
-            encontrou_r = False
-            for i in range(tamanho_mapa[0]):
-                linha = arquivo.readline().split()[:tamanho_mapa[1]]
-                if not linha or len(linha) < tamanho_mapa[1]:
-                    raise MapaInvalido("O tamanho real do mapa não corresponde ao tamanho informado!")
-                for j in range(tamanho_mapa[1]):
-                    if not encontrou_r and linha[j] == 'R':
-                        encontrou_r = True
-                    if linha[j].isalpha() and not procurar_vertice(vertices, linha[j]):
-                        vertices[linha[j]] = (i, j)
-                    elif linha[j].isalpha():
-                        raise MapaInvalido("Vértices duplicados!")
+            found_r = False
+            for i in range(map_size[0]):
+                line = file.readline().split()[:map_size[1]]
+                if not line or len(line) < map_size[1]:
+                    raise InvalidMap("The actual size of the map does not correspond to the stated size!")
+                for j in range(map_size[1]):
+                    if not found_r and line[j] == 'R':
+                        found_r = True
+                    if line[j].isalpha() and not looking_vertices(vertices, line[j]):
+                        vertices[line[j]] = (i, j)
+                    elif line[j].isalpha():
+                        raise InvalidMap("Duplicate vertices!")
 
-            if not encontrou_r:
-                raise MapaInvalido("Ponto de retorno não encontrado!")
+            if not found_r:
+                raise InvalidMap("Return point not found!")
 
-            return Grafo(vertices)
-
+            return Graph(vertices)
