@@ -33,9 +33,8 @@ $ python
 >>> # Calculation of the best path and distance
 >>> best_path, best_distance = BruteForceSearch.find_best_path(graph, True, True)
 ```
+##### Create a .txt file
 ```bash
-file.txt
-
 4 5
 0 0 0 0 D
 0 A 0 0 0
