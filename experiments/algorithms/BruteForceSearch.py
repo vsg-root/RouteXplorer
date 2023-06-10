@@ -12,7 +12,7 @@ class BruteForceSearch(Algorithm):
         resultado = []
         for i in range(len(vertices)):
             if exibir_load and profundidade == 0:
-                Utils.gerar_load(len(vertices), i + 1, "gerando permutações")
+                Utils.gerar_load(len(vertices), i + 1, "Generating permutations")
             vertice_atual = vertices[i]
             vertices_restantes = vertices[:i] + vertices[i + 1:]
             permutacoes_restantes = BruteForceSearch.__permutation(vertices_restantes, exibir_load, profundidade + 1)  # Corrected method name
@@ -32,7 +32,7 @@ class BruteForceSearch(Algorithm):
             permutacoes.remove(permutacao[::-1]) # Verificar se é permitido!!!
             
             if exibir_load:
-                Utils.gerar_load(len(permutacoes), cont + 1, "verificando caminhos")
+                Utils.gerar_load(len(permutacoes), cont + 1, "Checking paths")
                 
             caminho = ['R'] + permutacao + ['R']
             distancia = grafo.calcular_custo(caminho)
@@ -42,6 +42,7 @@ class BruteForceSearch(Algorithm):
             cont += 1
         
         if exibir_resultado:
-            print(f"{melhor_caminho} ({menor_distancia})")
+            print(f"Best path: {melhor_caminho} \nShorter distance: ({menor_distancia})")
 
         return melhor_caminho, menor_distancia
+
