@@ -1,6 +1,6 @@
-from algorithms.Algorithm import Algorithm
-from utils.Graph import Graph
-from utils.Utils import Utils
+from .Algorithm import Algorithm
+from ..utils.Graph import Graph
+from ..utils.Utils import Utils
 
 
 class BruteForceSearch(Algorithm):

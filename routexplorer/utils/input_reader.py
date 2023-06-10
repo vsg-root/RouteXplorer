@@ -1,4 +1,4 @@
-from utils.Graph import Graph
+from .Graph import Graph
 
 class InvalidElement(Exception):
     pass

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from utils.Graph import Graph
+from ..utils.Graph import Graph
 
 class Algorithm(ABC):
     """
