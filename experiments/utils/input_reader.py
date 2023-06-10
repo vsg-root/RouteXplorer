@@ -25,7 +25,7 @@ class InputReader:
         with open(caminho_arquivo, "r") as arquivo:
             tamanho_mapa = ()
             try:
-                tamanho_mapa = tuple(int(i) for i in arquivo.readline().split("x"))
+                tamanho_mapa = tuple(int(i) for i in arquivo.readline().split())
                 if len(tamanho_mapa) != 2:
                     raise TamanhoInvalido("Número inválido de dimensões!")
             except ValueError:
