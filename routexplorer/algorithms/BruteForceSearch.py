@@ -52,7 +52,7 @@ class BruteForceSearch(Algorithm):
 
         cont = 0
         for permutation in permutations:
-            permutations.remove(permutation[::-1])  # Verificar se é permitido!!!
+            permutations.remove(permutation[::-1])  # Remove inverse combination!!!
 
             if show_load:
                 Utils.generate_load(len(permutations), cont + 1, "Checking paths")
