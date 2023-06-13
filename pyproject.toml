@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "routexplorer"
-version = "0.0.0"
+version = "0.0.5"
 description = "RouteXplorer is a lib developed to optimize routes in Complete Graphs."
 authors = ["vsg-root <vsg.dev.tech@gmail.com>"]
 readme = "README.md"
