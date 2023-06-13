@@ -51,7 +51,7 @@ R 0 B 0 0
 ##### Run your project
 ```python
 $ python RouteXplorer.py
-$ Enter file path: your/txt/file/path/file.txt
+Enter file path: your/txt/file/path/file.txt
 ```
 ```
 100% [■■■■■■■■■■] - Generating permutations
