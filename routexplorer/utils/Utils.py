@@ -23,7 +23,7 @@ class Utils:
         print(
             f"{percentage:03}% [" + "■" * (percentage // 10) + "□" * (10 - (percentage // 10)) + f"] - {name}",
             end="\r" if percentage < 100 else "\n"
-        )rogress // end) * 100
+        )progress // end) * 100
         print(
             f"{percentage:03}% [" + "■" * (percentage // 10) + "□" * (10 - (percentage // 10)) + f"] - {name}",
             end="\r" if percentage < 100 else "\n"
