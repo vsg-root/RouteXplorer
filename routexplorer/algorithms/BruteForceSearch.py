@@ -61,7 +61,7 @@ class BruteForceSearch(Algorithm):
             distance = graph.cust_calculate(path)
             if distance < min_distance:
                 min_distance = distance
-                best_path = path[1:-1]
+                best_path = path[1:-1]   # Remove 'R' in the List
             cont += 1
 
         if show_result:
