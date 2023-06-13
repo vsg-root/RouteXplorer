@@ -22,7 +22,9 @@ $ pip install routexplorer
 
 ##### Try your first RouteXplorer program
 ```python
-$ python
+# Create a .py file
+$ echo > PythonFile.py
+$ open PythonFile.py
 ```
 ```python
 >>> from routexplorer.utils.input_reader import InputReader
@@ -36,14 +38,20 @@ $ python
 ```
 ##### Create a .txt file
 ```bash
+$ echo > file.txt
+$ open file.txt
+```
+```bash
 4 5
 0 0 0 0 D
 0 A 0 0 0
 0 0 0 0 C
 R 0 B 0 0
 ```
+##### Run your project
 ```python
-$ Enter file path: file/path/file.txt
+$ python RouteXplorer.py
+$ Enter file path: your/txt/file/path/file.txt
 ```
 ```
 100% [■■■■■■■■■■] - Generating permutations
