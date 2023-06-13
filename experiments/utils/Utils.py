@@ -19,7 +19,7 @@ class Utils:
             name (str): The name or description of the progress.
 
         """
-        percentage = (progress // end) * 100
+        percentage = int((progress / end) * 100)
         print(
             f"{percentage:03}% [" + "■" * (percentage // 10) + "□" * (10 - (percentage // 10)) + f"] - {name}",
             end="\r" if percentage < 100 else "\n"
