@@ -1,6 +1,7 @@
-from algorithms.Algorithm import Algorithm
+from algorithms.Algorithm import Algorithm, InvalidReturnPoint
 from utils.Graph import Graph
 from utils.Utils import Utils
+from typing import Optional
 
 
 class BruteForceSearch(Algorithm):
@@ -33,7 +34,7 @@ class BruteForceSearch(Algorithm):
         return result
 
     @staticmethod
-    def find_best_path(graph: Graph, show_load: bool = False, show_result: bool = False):
+    def find_best_path(graph: Graph, return_point: Optional[str] = "R", show_load: bool = False, show_result: bool = False):
         """
         Find the best path in the given graph using Brute Force Search.
 
@@ -45,19 +46,25 @@ class BruteForceSearch(Algorithm):
         Returns:
             tuple: A tuple containing the best path and its minimum distance.
         """
+        vertices = graph.get_vertices()
+        if not Utils.find(vertices, return_point):
+            raise InvalidReturnPoint("Return point not found!")
+        
         min_distance = float('inf')
         best_path = None
 
-        permutations = BruteForceSearch.__permutation(graph.get_vertices(), show_load)
+        
+        vertices.remove(return_point)
+        permutations = BruteForceSearch.__permutation(vertices, show_load)
 
         cont = 0
         for permutation in permutations:
-            permutations.remove(permutation[::-1])  # Verificar se é permitido!!!
+            permutations.remove(permutation[::-1])
 
             if show_load:
                 Utils.generate_load(len(permutations), cont + 1, "Checking paths")
 
-            path = ['R'] + permutation + ['R']
+            path = [return_point] + permutation + [return_point]
             distance = graph.cust_calculate(path)
             if distance < min_distance:
                 min_distance = distance
@@ -65,6 +72,6 @@ class BruteForceSearch(Algorithm):
             cont += 1
 
         if show_result:
-            print(f"Best path: {best_path} \nShorter distance: ({min_distance})")
+            print(f"Best path: {best_path}\nShorter distance: ({min_distance})")
 
         return best_path, min_distance

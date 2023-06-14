@@ -60,9 +60,7 @@ class Graph:
         Returns:
             list: A list of vertices.
         """
-        vertice_list = list(self.__graph.keys())
-        vertice_list.remove("R")
-        return vertice_list
+        return list(self.__graph.keys())
 
     def get_distance(self, origin: str, destiny: str):
         """

@@ -1,6 +1,8 @@
 from utils.Graph import Graph
+from utils.Utils import Utils
+from typing import Callable, Optional, Sequence
 
-class InvalidElement(Exception):
+class InvalidElement(ValueError):
     pass
 
 class InvalidSize(InvalidElement):
@@ -12,6 +14,44 @@ class InvalidMap(InvalidElement):
 
 class InputReader:
     """Class responsible for reading and handling the input."""
+        
+    @staticmethod
+    def get_map_size(input: str, separator: Optional[str] = " ") -> tuple[int]:
+        try:
+            map_size = tuple(int(i) for i in input.split(separator))
+            if len(map_size) != 2:
+                raise InvalidSize("Invalid dimensions numbers.")
+            if map_size[0] <= 0 or map_size[1] <= 0:
+                raise InvalidSize("The map size must be positive.")
+            return map_size
+        except ValueError:
+            raise InvalidSize("The map size must consist of two integers.")
+    
+    @staticmethod
+    def get_vertices(map_size: tuple[int], map: Sequence[Sequence[str]] = None, input_function: Callable[[None], str] = None, separator: Optional[str] = " ") -> dict[str, tuple[int, int]]:
+        if len(map_size) != 2:
+            raise InvalidSize("Invalid dimensions numbers.")
+        if map_size[0] <= 0 or map_size[1] <= 0:
+            raise InvalidSize("The map size must be positive.")
+        if map == None and input_function == None:
+            raise ValueError("If a map is not passed directly an input function must be provided.")
+        if map != None and len(map) < map_size[0]:
+            raise InvalidMap("The actual size of the map does not correspond to the given size.")
+        
+        vertices = {}
+        for i in range(map_size[0]):
+            line = map[i] if map != None else input_function().split(separator)[:map_size[1]]
+            if not line or len(line) < map_size[1]:
+                raise InvalidMap("The actual size of the map does not correspond to the given size.")
+            for j in range(map_size[1]):
+                vertice = line[j].strip()
+                if vertice.isalpha(): 
+                    if not Utils.find(vertices.keys(), vertice):
+                        vertices[vertice] = (i, j)
+                    else:
+                        raise InvalidMap("Duplicate vertices!")
+        return vertices
+        
 
     @staticmethod
     def read_file(file_path: str) -> dict[str, tuple[int, int]]:
@@ -22,46 +62,12 @@ class InputReader:
 
         Returns:
             dict[str, tuple[int, int]]: A dictionary containing vertices as keys and their coordinates as values.
-        """
-        def looking_vertices(vertices: dict[str, tuple[int, int]], target: str) -> bool:
-            """Checks if a vertex already exists in the given dictionary.
-
-            Args:
-                vertices (dict[str, tuple[int, int]]): The dictionary of vertices.
-                target (str): The vertex to check.
-
-            Returns:
-                bool: True if the vertex exists, False otherwise.
-            """
-            for i in vertices.keys():
-                if i == target:
-                    return True
-            return False
+        """   
 
         with open(file_path, "r") as file:
-            map_size = ()
-            try:
-                map_size = tuple(int(i) for i in file.readline().split())
-                if len(map_size) != 2:
-                    raise InvalidSize("Invalid dimensions numbers!")
-            except ValueError:
-                raise InvalidSize("The map size must consist of two integers!")
+            
+            map_size = InputReader.get_map_size(file.readline())
 
-            vertices = {}
-            found_r = False
-            for i in range(map_size[0]):
-                line = file.readline().split()[:map_size[1]]
-                if not line or len(line) < map_size[1]:
-                    raise InvalidMap("The actual size of the map does not correspond to the stated size!")
-                for j in range(map_size[1]):
-                    if not found_r and line[j] == 'R':
-                        found_r = True
-                    if line[j].isalpha() and not looking_vertices(vertices, line[j]):
-                        vertices[line[j]] = (i, j)
-                    elif line[j].isalpha():
-                        raise InvalidMap("Duplicate vertices!")
-
-            if not found_r:
-                raise InvalidMap("Return point not found!")
+            vertices = InputReader.get_vertices(map_size, input_function=file.readline)
 
             return Graph(vertices)
