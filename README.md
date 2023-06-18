@@ -26,6 +26,7 @@ $ pip install routexplorer
 $ echo > PythonFile.py
 $ open PythonFile.py
 ```
+With this piece of code you can read a input file, convert it into a graph and calculate the best path using the brute force algorithm.
 ```python
 >>> from routexplorer.utils.input_reader import InputReader
 >>> from routexplorer.algorithms.BruteForceSearch import BruteForceSearch
@@ -34,13 +35,15 @@ $ open PythonFile.py
 >>> graph = InputReader.read_file(input("Enter file path: ")) 
 
 >>> # Calculation of the best path and distance
->>> best_path, best_distance = BruteForceSearch.find_best_path(graph, True, True)
+>>> best_path, best_distance = BruteForceSearch.find_best_path(graph, show_load=True, show_result=True)
 ```
 ##### Create a .txt file
+If you want, you can create a input file to facilitate the graph creation. This step can be achieved alternatively using other methods without the need to create a input file.
 ```bash
 $ echo > file.txt
 $ open file.txt
 ```
+The file must have the following format:
 ```bash
 4 5
 0 0 0 0 D
@@ -48,6 +51,8 @@ $ open file.txt
 0 0 0 0 C
 R 0 B 0 0
 ```
+The first row represents the size of the map and the following rows represents the map itself. each one of the characters is a cell, the 0's are empty cell's, you can change these characters for anything you want, as long as it isn't a letter, the letters represents a node. 
+
 ##### Run your project
 ```python
 $ python RouteXplorer.py
