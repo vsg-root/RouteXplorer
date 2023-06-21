@@ -30,7 +30,9 @@ class BruteForceSearch(Algorithm):
             remaining_vertices = vertices[:i] + vertices[i + 1:]
             remaining_permutations = BruteForceSearch.__permutation(remaining_vertices, show_load, depth + 1)  # Corrected method name
             for permutation in remaining_permutations:
-                result.append([current_vertice] + permutation)
+                new_permutation = [current_vertice] + permutation
+                if depth != 0 or not Utils.find(result, new_permutation[::-1]):
+                    result.append(new_permutation)
         return result
 
     @staticmethod
@@ -57,19 +59,16 @@ class BruteForceSearch(Algorithm):
         vertices.remove(return_point)
         permutations = BruteForceSearch.__permutation(vertices, show_load)
 
-        cont = 0
-        for permutation in permutations:
-            permutations.remove(permutation[::-1])
+        for i in range(len(permutations)):
 
             if show_load:
-                Utils.generate_load(len(permutations), cont + 1, "Checking paths")
+                Utils.generate_load(len(permutations), i + 1, "Checking paths")
 
-            path = [return_point] + permutation + [return_point]
+            path = [return_point] + permutations[i] + [return_point]
             distance = graph.cust_calculate(path)
             if distance < min_distance:
                 min_distance = distance
                 best_path = path[1:-1]
-            cont += 1
 
         if show_result:
             print(f"Best path: {best_path}\nShorter distance: ({min_distance})")
