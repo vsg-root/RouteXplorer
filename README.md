@@ -64,7 +64,7 @@ Enter file path: your/txt/file/path/file.txt
 Best path: ['A', 'D', 'C', 'B'] 
 Shorter distance: (14)
 ```
-## Arquitetura da Biblioteca
+## Library Architecture
 ```mermaid
 
 ---
