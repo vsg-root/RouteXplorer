@@ -64,7 +64,22 @@ Enter file path: your/txt/file/path/file.txt
 Best path: ['A', 'D', 'C', 'B'] 
 Shorter distance: (14)
 ```
+## Arquitetura da Biblioteca
+```mermaid
 
+---
+title: Packet Diagram
+---
+flowchart TD
+RouteXplorer(<b>RouteXplorer</b>\nRoot directory of the project) --> Algorithms(<b>algorithms</b>\nImplementations of the project's algorithms)
+RouteXplorer --> Utils(<b>Utils</b>\nAuxiliary functions)
+Utils --> Graph[<b>Graph</b>\nGraph creation]
+Utils --> utils[<b>utils</b>\nStorage of utility functions]
+Utils --> input_reader[<b>input_reader</b>\nInput data function]
+Algorithms --> IAlgorithm[<b>IAlgorithm</b>\nAbstract Algorithm class]
+Algorithms --> BruteForceSearch[<b>BruteForceSearch</b>\nBrute force algorithm]
+
+```
 ## Key Features
 
 - Efficient Algorithms: RouteXplorer implements a variety of optimized algorithms to solve the Traveling Salesman Problem, allowing you to find solutions quickly and efficiently.
