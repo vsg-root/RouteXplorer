@@ -2,9 +2,6 @@ class Graph:
     """
     Class representing a graph.
 
-    Attributes:
-        Vertices (dict[str, tuple[int, int]]): Type hint for the vertices dictionary.
-
     Methods:
         __init__(self, vertices: Vertices) -> None:
             Initializes the Graph object.
