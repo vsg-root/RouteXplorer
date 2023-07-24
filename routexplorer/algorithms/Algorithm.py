@@ -1,5 +1,11 @@
 from abc import ABC, abstractmethod
-from ..utils.Graph import Graph
+from utils.Graph import Graph
+from typing import Optional
+
+
+class InvalidReturnPoint(Exception):
+    pass
+
 
 class Algorithm(ABC):
     """
@@ -8,7 +14,7 @@ class Algorithm(ABC):
 
     @staticmethod
     @abstractmethod
-    def find_best_path(graph: Graph, show_load: bool = False, show_results: bool = False) -> tuple[list[str], int]:
+    def find_best_path(graph: Graph, return_point: Optional[str] = "R", show_load: bool = False, show_results: bool = False) -> tuple[list[str], int]:
         """
         Abstract method for finding the best path in a graph.
 
