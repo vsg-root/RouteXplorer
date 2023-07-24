@@ -1,6 +1,7 @@
-from .Algorithm import Algorithm
-from ..utils.Graph import Graph
-from ..utils.Utils import Utils
+from algorithms.Algorithm import Algorithm, InvalidReturnPoint
+from utils.Graph import Graph
+from utils.Utils import Utils
+from typing import Optional
 
 
 class BruteForceSearch(Algorithm):
@@ -29,11 +30,13 @@ class BruteForceSearch(Algorithm):
             remaining_vertices = vertices[:i] + vertices[i + 1:]
             remaining_permutations = BruteForceSearch.__permutation(remaining_vertices, show_load, depth + 1)  # Corrected method name
             for permutation in remaining_permutations:
-                result.append([current_vertice] + permutation)
+                new_permutation = [current_vertice] + permutation
+                if depth != 0 or not Utils.find(result, new_permutation[::-1]):
+                    result.append(new_permutation)
         return result
 
     @staticmethod
-    def find_best_path(graph: Graph, show_load: bool = False, show_result: bool = False):
+    def find_best_path(graph: Graph, return_point: Optional[str] = "R", show_load: bool = False, show_result: bool = False):
         """
         Find the best path in the given graph using Brute Force Search.
 
@@ -45,26 +48,29 @@ class BruteForceSearch(Algorithm):
         Returns:
             tuple: A tuple containing the best path and its minimum distance.
         """
+        vertices = graph.get_vertices()
+        if not Utils.find(vertices, return_point):
+            raise InvalidReturnPoint("Return point not found!")
+        
         min_distance = float('inf')
         best_path = None
 
-        permutations = BruteForceSearch.__permutation(graph.get_vertices(), show_load)
+        
+        vertices.remove(return_point)
+        permutations = BruteForceSearch.__permutation(vertices, show_load)
 
-        cont = 0
-        for permutation in permutations:
-            permutations.remove(permutation[::-1])  # Remove inverse combination!!!
+        for i in range(len(permutations)):
 
             if show_load:
-                Utils.generate_load(len(permutations), cont + 1, "Checking paths")
+                Utils.generate_load(len(permutations), i + 1, "Checking paths")
 
-            path = ['R'] + permutation + ['R']
+            path = [return_point] + permutations[i] + [return_point]
             distance = graph.cust_calculate(path)
             if distance < min_distance:
                 min_distance = distance
-                best_path = path[1:-1]   # Remove 'R' in the List
-            cont += 1
+                best_path = path[1:-1]
 
         if show_result:
-            print(f"Best path: {best_path} \nShorter distance: ({min_distance})")
+            print(f"Best path: {best_path}\nShorter distance: ({min_distance})")
 
         return best_path, min_distance
