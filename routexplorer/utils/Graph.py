@@ -2,6 +2,9 @@ class Graph:
     """
     Class representing a graph.
 
+    Attributes:
+        Vertices (dict[str, tuple[int]]): Type hint for the vertices dictionary.
+
     Methods:
         __init__(self, vertices: Vertices) -> None:
             Initializes the Graph object.
@@ -19,7 +22,7 @@ class Graph:
             Calculates the total distance of a given route.
     """
 
-    Vertices = dict[str, tuple[int, int]]
+    Vertices = dict[str, tuple[int]]
 
     def __init__(self, vertices: Vertices) -> None:
         """
@@ -42,11 +45,9 @@ class Graph:
         """
         distances = {}
         for i in vertices.keys():
-            remaining_vertices = vertices.copy()
-            remaining_vertices.pop(i)
             distances[i] = dict(
                 (j, abs(vertices[i][0] - vertices[j][0]) + abs(vertices[i][1] - vertices[j][1]))
-                for j in remaining_vertices.keys()
+                for j in vertices.keys() if j != i
             )
         return distances
 
@@ -57,9 +58,7 @@ class Graph:
         Returns:
             list: A list of vertices.
         """
-        vertice_list = list(self.__graph.keys())
-        vertice_list.remove("R")
-        return vertice_list
+        return list(self.__graph.keys())
 
     def get_distance(self, origin: str, destiny: str):
         """
