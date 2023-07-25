@@ -37,6 +37,23 @@ With this piece of code you can read a input file, convert it into a graph and c
 >>> # Calculation of the best path and distance
 >>> best_path, best_distance = BruteForceSearch.find_best_path(graph, show_load=True, show_result=True)
 ```
+Alternatively you can get the input directly with the final user and omit the loading process.
+```python
+>>> from routexplorer.utils.input_reader import InputReader
+>>> from routexplorer.utils.Graph import Graph
+>>> from routexplorer.algorithms.BruteForceSearch import BruteForceSearch
+
+>>> # Datas of graph
+>>> graph = Graph(InputReader.get_vertices(InputReader.get_map_size(input()), input_function=input))
+
+>>> # Calculation of the best path and distance
+>>> best_path, _ = BruteForceSearch.find_best_path(graph)
+
+>>> path_length = len(best_path)
+>>> for i in range(path_length):
+>>>     print(best_path[i], end=" " if i < path_length - 1 else "\n")
+```
+
 ##### Create a .txt file
 If you want, you can create a input file to facilitate the graph creation. This step can be achieved alternatively using other methods without the need to create a input file.
 ```bash
@@ -63,6 +80,18 @@ Enter file path: your/txt/file/path/file.txt
 100% [■■■■■■■■■■] - Checking paths
 Best path: ['A', 'D', 'C', 'B'] 
 Shorter distance: (14)
+```
+Or if you have chosed the second code example:
+ ```python
+$ python RouteXplorer.py
+4 5
+0 0 0 0 D
+0 A 0 0 0
+0 0 0 0 C
+R 0 B 0 0
+```
+```
+A D C B
 ```
 ## Library Architecture
 ```mermaid
