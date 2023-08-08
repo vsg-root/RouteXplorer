@@ -11,9 +11,9 @@ class Algorithm(ABC):
     """
     Abstract class for finding the best path in a graph.
     """
-
-    @staticmethod
+    
     @abstractmethod
+    @staticmethod
     def find_best_path(graph: Graph, return_point: Optional[str] = "R", show_load: bool = False, show_results: bool = False) -> tuple[list[str], int]:
         """
         Abstract method for finding the best path in a graph.
