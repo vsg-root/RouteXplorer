@@ -1,4 +1,6 @@
-import random
+import random, time
+
+
 
 class GeneticSearch():
     """Class that contains methods to solve the TSP using the genetic algorithm"""
@@ -114,9 +116,9 @@ class GeneticSearch():
             Args:
             points: dict -> Dictionary with points and their coordinates."""
         generation = 1
-        populationSize = 50
-        maxGenerations = 1000
-        crossoverRate = 98
+        populationSize = 30
+        maxGenerations = 1500
+        crossoverRate = 95
         mutationRate = 2
         lowestRouteCost = float('inf')
         bestRoute = []
@@ -133,7 +135,7 @@ class GeneticSearch():
         return f'Best route: {bestRoute}\nCost: {lowestRouteCost}'
     
 
-pontosDeEntrega = {
+pontosDeEntrega_52 = {
     '1': [565.0, 575.0],
     '2': [25.0, 185.0],
     '3': [345.0, 750.0],
@@ -187,9 +189,40 @@ pontosDeEntrega = {
     '51': [1340.0, 725.0],
     '52': [1740.0, 245.0]
 }
-
-geneticSearch = GeneticSearch()
-resultado = geneticSearch.find_best_path(pontosDeEntrega)
-print(resultado)
-
-
+pontosDeEntrega_3 = {
+    '1': [3, 0],
+    '2': [1, 1],
+    '3': [0, 0],
+    '4': [3, 2]
+}
+pontosDeEntrega_6 = {
+    '1': [3, 0],
+    '2': [1, 1],
+    '3': [3, 2],
+    '4': [2, 4],
+    '5': [0, 4],
+    '6': [0, 0],
+    '7': [1, 3]
+}
+pontosDeEntrega_9 = {
+    '1': [565.0, 575.0],
+    '2': [25.0, 185.0],
+    '3': [345.0, 750.0],
+    '4': [945.0, 685.0],
+    '5': [845.0, 655.0],
+    '6': [880.0, 660.0],
+    '7': [25.0, 230.0],
+    '8': [525.0, 1000.0],
+    '9': [580.0, 1175.0],
+    '10': [2, 4]
+}
+c = 0
+while c < 30:
+    start_time = time.time()
+    geneticSearch = GeneticSearch()
+    resultado = geneticSearch.find_best_path(pontosDeEntrega_52)
+    print(resultado)
+    end_time = time.time()
+    result = end_time - start_time
+    print(f'tempo: {result:.4f} segundos')
+    c += 1
