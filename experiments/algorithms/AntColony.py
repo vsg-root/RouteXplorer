@@ -36,7 +36,7 @@ class AntColonyOptimization(Algorithm):
             
             next_node = random.choices(jumps_neighbors, weights = jumps_values)[0]
             
-            visited[next_node] = 1
+            visited[next_node] = True
             
             current = next_node
             cycle[steps + 1] = current
@@ -66,13 +66,13 @@ class AntColonyOptimization(Algorithm):
         num_ants: Optional[int] = 146, 
         num_iterations: Optional[int] = 321,
         pheromone_initial: Optional[float] = 0.0001,
-        evaporation_rate: Optional[float] = 0.7110636655535829,
-        alpha: Optional[float] = 1.6435585431878104,
-        beta: Optional[float] = 0.53733363152305,
-        k: Optional[int] = 23, 
-        Q: Optional[float] = 0.5724467888818746,
-        update_by='rank', 
-        worst=True, 
+        evaporation_rate: Optional[float] = 0.3,
+        alpha: Optional[float] = 0.5,
+        beta: Optional[float] = 2.9,
+        k: Optional[int] = 1, 
+        Q: Optional[float] = 0.4,
+        update_by="quality", 
+        worst=False, 
         elitist=False,
         show_load: Optional[bool] = False, 
         show_result: Optional[bool] = False):
@@ -120,28 +120,27 @@ class AntColonyOptimization(Algorithm):
                     end = vertices[batch[j][0][l + 1]]
                     pheromone_matrix[start][end] += delta
                 pheromone_matrix[vertices[batch[j][0][-1]]][vertices[batch[j][0][0]]] += delta
-                
-                
+
+            
+            Utils.heap_sort(batch, num_ants, lambda x: x[1])    
             # reforço
             if worst:
-                solution, _ = Utils.get_max(batch, lambda x: x[1])
+                solution = batch[-1][0]
                 AntColonyOptimization.__reinforcement(graph, solution, -1, pheromone_matrix)
 
             if elitist:
                 AntColonyOptimization.__reinforcement(graph, best_route, 1, pheromone_matrix)
 
             if update_by == 'quality':
-                Utils.heap_sort(batch, num_ants, lambda x: x[1])
                 for solution, _ in batch[:k]:
                     AntColonyOptimization.__reinforcement(graph, solution, 1, pheromone_matrix)
             elif update_by == 'rank':
-                Utils.heap_sort(batch, num_ants, lambda x: x[1])
                 delta = k
                 for solution, _ in batch[:k]:
                     AntColonyOptimization.__reinforcement(graph, solution, delta, pheromone_matrix)
                     delta -= 1
         
-        translated_best_route = [vertices[i] for i in best_route] + [return_point]
+        translated_best_route = [vertices[best_route[i]] for i in range(1, len(best_route))]
         if show_result:
             print(f"Best path: {translated_best_route}\nShorter distance: ({best_cost})")
         return translated_best_route, best_cost

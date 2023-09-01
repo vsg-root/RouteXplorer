@@ -72,7 +72,7 @@ class InputReader:
 
             vertices = InputReader.get_vertices(map_size, input_function=file.readline)
 
-            return Graph(vertices)
+            return vertices
     
     def read_file(path: str):
         assert os.path.exists(path), path + " - file dosen't exists."
@@ -90,5 +90,5 @@ class InputReader:
             for _ in range(n):
                 v = f.readline().split()
                 vertices[v[0]] = (float(v[1]), float(v[2]))
-        return Graph(vertices)
+        return vertices
 
