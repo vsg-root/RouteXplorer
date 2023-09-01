@@ -23,9 +23,9 @@ class GeneticSearch():
             firstVertex: str -> First point.
             secondVertex: str -> Second point.
             coordinates: dict -> Dictionary with points and their coordinates."""
-        firstVertexX, firstVertexY = coordinates[f'{firstVertex}']
-        secondVertexX, secondVertexY = coordinates[f'{secondVertex}']
-        distance = abs(firstVertexX - secondVertexX) + abs(firstVertexY - secondVertexY)
+        firstVertexX, firstVertexY = coordinates[firstVertex]
+        secondVertexX, secondVertexY = coordinates[secondVertex]
+        distance = sqrt((firstVertexX - secondVertexX)**2 + (firstVertexY - secondVertexY)**2)) 
         return distance
     @staticmethod
     def tournamentWinner(population: list, coordinates: dict) -> list[str]:
