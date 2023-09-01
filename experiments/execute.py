@@ -11,7 +11,7 @@ graph = InputReader.read_file(".\\experiments\\berlin52.tsp")
 # Calculation of the best path and distance
 #best_path, _ = BruteForceSearch.find_best_path(graph)
 
-best_path, best_distance = AntColonyOptimization.find_best_path(graph, "1", show_load=False, k=5, worst=True)
+best_path, best_distance = AntColonyOptimization.find_best_path(graph)
 
 print("Melhor caminho:", best_path)
 print("Menor distância:", best_distance)
