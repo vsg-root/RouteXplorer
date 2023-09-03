@@ -6,7 +6,7 @@ from algorithms.AntColony import AntColonyOptimization
 
 # Datas of graph
 #graph = Graph(InputReader.get_vertices(InputReader.get_map_size(input()), input_function=input))
-graph = InputReader.read_file(".\\experiments\\berlin52.tsp")
+graph = Graph(InputReader.read_file(".\\experiments\\berlin52.tsp"))
 
 # Calculation of the best path and distance
 #best_path, _ = BruteForceSearch.find_best_path(graph)
