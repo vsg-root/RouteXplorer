@@ -2,6 +2,8 @@ from utils.Graph import Graph
 from utils.Utils import Utils
 from typing import Callable, Optional, Sequence
 
+import os
+
 class InvalidElement(ValueError):
     pass
 
@@ -54,7 +56,7 @@ class InputReader:
         
 
     @staticmethod
-    def read_file(file_path: str) -> dict[str, tuple[int, int]]:
+    def read_map_file(file_path: str) -> dict[str, tuple[int, int]]:
         """Reads the input file and returns a dictionary of vertices with their coordinates.
 
         Args:
@@ -70,4 +72,23 @@ class InputReader:
 
             vertices = InputReader.get_vertices(map_size, input_function=file.readline)
 
-            return Graph(vertices)
+            return vertices
+    
+    def read_file(path: str):
+        assert os.path.exists(path), path + " - file dosen't exists."
+        with open(path, 'r') as f:
+            info = {}
+            for ln in f:
+                if ln.strip() == 'NODE_COORD_SECTION':
+                    break
+                info[ln.split(':')[0].strip()] = ln.split(':')[1].strip()
+            # print(self.info)
+            assert info['EDGE_WEIGHT_TYPE'] == 'EUC_2D', 'distance type not suported: ' + info['EDGE_WEIGHT_TYPE']
+            
+            n = int(info['DIMENSION'])
+            vertices = {}
+            for _ in range(n):
+                v = f.readline().split()
+                vertices[v[0]] = (float(v[1]), float(v[2]))
+        return vertices
+

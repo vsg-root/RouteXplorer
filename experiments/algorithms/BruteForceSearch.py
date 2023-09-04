@@ -1,24 +1,24 @@
 from algorithms.Algorithm import Algorithm, InvalidReturnPoint
 from utils.Graph import Graph
 from utils.Utils import Utils
-from typing import Optional
+from typing import List, Optional
 
 
 class BruteForceSearch(Algorithm):
     """Class implementing the Brute Force Search algorithm."""
 
     @staticmethod
-    def __permutation(vertices: list[str], show_load: bool, depth: int = 0) -> list[list[str]]:
+    def __permutation(vertices: List[str], show_load: bool, depth: int = 0) -> List[List[str]]:
         """
         Generate all possible permutations of vertices using a recursive approach.
 
         Args:
-            vertices (list[str]): The list of vertices to permute.
+            vertices (List[str]): The list of vertices to permute.
             show_load (bool): Flag indicating whether to show load progress.
             depth (int): The current depth of recursion.
 
         Returns:
-            list[list[str]]: List of all possible permutations of vertices.
+            List[List[str]]: List of all possible permutations of vertices.
         """
         if len(vertices) == 1:
             return [vertices]

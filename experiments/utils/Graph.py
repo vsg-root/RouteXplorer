@@ -1,3 +1,7 @@
+from math import sqrt
+from typing import List, Dict
+
+
 class Graph:
     """
     Class representing a graph.
@@ -22,7 +26,7 @@ class Graph:
             Calculates the total distance of a given route.
     """
 
-    Vertices = dict[str, tuple[int]]
+    Vertices = Dict[str, tuple[int]]
 
     def __init__(self, vertices: Vertices) -> None:
         """
@@ -33,7 +37,7 @@ class Graph:
         """
         self.__graph = self.__generate_graph(vertices)
 
-    def __generate_graph(self, vertices: Vertices) -> dict[str, dict[str, int]]:
+    def __generate_graph(self, vertices: Vertices) -> dict[str, dict[str, float]]:
         """
         Generates the graph by calculating distances between vertices.
 
@@ -46,12 +50,12 @@ class Graph:
         distances = {}
         for i in vertices.keys():
             distances[i] = dict(
-                (j, abs(vertices[i][0] - vertices[j][0]) + abs(vertices[i][1] - vertices[j][1]))
+                (j, sqrt((vertices[i][0] - vertices[j][0])**2 + (vertices[i][1] - vertices[j][1])**2))
                 for j in vertices.keys() if j != i
             )
         return distances
 
-    def get_vertices(self):
+    def get_vertices(self) -> List[str]:
         """
         Returns a list of vertices in the graph.
 
@@ -60,7 +64,7 @@ class Graph:
         """
         return list(self.__graph.keys())
 
-    def get_distance(self, origin: str, destiny: str):
+    def get_distance(self, origin: str, destiny: str) -> float:
         """
         Returns the distance between two vertices.
 
@@ -73,7 +77,7 @@ class Graph:
         """
         return self.__graph[origin][destiny]
 
-    def cust_calculate(self, rota):
+    def cust_calculate(self, rota) -> float:
         """
         Calculates the total distance of a given route.
 
@@ -89,3 +93,7 @@ class Graph:
             next_vertice = rota[i + 1]
             total_distance += self.get_distance(current_vertice, next_vertice)
         return total_distance
+    
+    def __str__(self) -> str:
+        for k in self.__graph.keys:
+            print(f"{k}: {self.__graph[k]}")
